@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Bosa Noga</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    <Header />
+
+    <main class="container">
+        <div class="row">
+            <div class="col">
+                <div class="banner">
+                    <img src="/img/banner.jpg" class="img-fluid" alt="К весне готовы!">
+                    <h2 class="banner-header">К весне готовы!</h2>
+                </div>
+
+                <section class="top-sales">
+                    <h2 class="text-center">Хиты продаж!</h2>
+
+                    <div class="preloader">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </section>
+
+                <section class="catalog">
+                    <h2 class="text-center">Каталог</h2>
+
+                    <div class="preloader">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+    </main>
+
+    <Footer />
+
+    <script>
+        // TODO: replace it with React!
+        const searchEl = document.querySelector('[data-id=search-expander]');
+        const searchFormEl = document.querySelector('[data-id=search-form]');
+        searchEl.addEventListener('click', () => {
+            searchFormEl.classList.toggle('invisible');
+            searchFormEl.querySelector('input').focus();
+        });
+    </script>
+</body>
+
+</html>
