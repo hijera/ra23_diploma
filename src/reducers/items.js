@@ -43,7 +43,7 @@ export default function itemsReducer(state=initialState,action)
             };
         case CATALOG_REQUEST_SUCCESS:
             const {list} = action.payload;
-            console.log(list);
+
             return {
                 ...state,
                 list: state.add ? [...state.list,...list] : list,

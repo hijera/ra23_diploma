@@ -1,7 +1,7 @@
 import { ofType } from 'redux-observable';
 import { of } from 'rxjs';
 import { ajax } from 'rxjs/ajax';
-import { map, tap, retry, filter,  switchMap, catchError } from 'rxjs/operators';
+import { map, tap, retry, filter, debounceTime, debounce, switchMap, catchError } from 'rxjs/operators';
 import {
     ADD_TO_CART,
     CAT_REQUEST,
@@ -21,6 +21,7 @@ import {saveState} from "../localStorage";
 
 export const productRequestEpic = action$ => action$.pipe(
     ofType(PRODUCT_REQUEST),
+    debounceTime(process.env.REACT_APP_DEBOUNCE_REQUEST_TIME),
     map(o => o.payload.id),
     switchMap(o => ajax.getJSON(`${process.env.REACT_APP_PRODUCT_URL.replace(":id",o)}`).pipe(
         retry(process.env.REACT_APP_RETRY_COUNT),
@@ -31,9 +32,8 @@ export const productRequestEpic = action$ => action$.pipe(
 
 export const catalogRequestEpic = (action$, state$) => action$.pipe(
     ofType(CATALOG_REQUEST),
-    tap(o=>console.log(state$)),
+    debounceTime(process.env.REACT_APP_DEBOUNCE_REQUEST_TIME),
     map(o => o.payload),
-
     map(o => new URLSearchParams({
         categoryId: o.categoryId ? o.categoryId : "",
         offset: o.add ? state$.value.list.offset: "",
@@ -48,6 +48,7 @@ export const catalogRequestEpic = (action$, state$) => action$.pipe(
 
 export const topsellsRequestEpic = action$ => action$.pipe(
     ofType(TOP_REQUEST),
+    debounceTime(process.env.REACT_APP_DEBOUNCE_REQUEST_TIME),
     switchMap(o => ajax.getJSON(`${process.env.REACT_APP_TOP_URL}`).pipe(
         retry(process.env.REACT_APP_RETRY_COUNT),
         map(o => topRequestSuccess(o)),
@@ -57,6 +58,7 @@ export const topsellsRequestEpic = action$ => action$.pipe(
 
 export const categoriesRequestEpic = action$ => action$.pipe(
     ofType(CAT_REQUEST),
+    debounceTime(process.env.REACT_APP_DEBOUNCE_REQUEST_TIME),
     switchMap(o => ajax.getJSON(`${process.env.REACT_APP_CAT_URL}`).pipe(
         retry(process.env.REACT_APP_RETRY_COUNT),
         map(o => categoriesRequestSuccess(o)),
@@ -66,6 +68,7 @@ export const categoriesRequestEpic = action$ => action$.pipe(
 
 export const orderRequestEpic = action$ => action$.pipe(
   ofType(ORDER_REQUEST),
+    debounceTime(process.env.REACT_APP_DEBOUNCE_REQUEST_TIME),
     map(o=>o.payload),
     switchMap(o => ajax.post(`${process.env.REACT_APP_ORDER_URL}`,
         {owner:{

@@ -10,7 +10,6 @@ NavbarLink.propTypes = {
 
 function NavbarLink(props) {
     const {link,title} = props;
-    console.log(props);
     const isActive=!!matchPath(props.location.pathname,{
         path: link,
         exact:true,

@@ -13,7 +13,7 @@ function Navbar(props) {
         <div className="collapase navbar-collapse" id="navbarMain">
             <ul className="navbar-nav mr-auto">
                 {menu.map(menu_item=>
-                <NavbarLink {...props} link={menu_item.link} title={menu_item.title}  />
+                <NavbarLink {...props} key={menu_item.link} link={menu_item.link} title={menu_item.title}  />
                 )}
             </ul>
         </div>

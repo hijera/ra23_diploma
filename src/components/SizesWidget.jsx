@@ -14,7 +14,6 @@ function SizesWidget(props) {
         evt.preventDefault();
         dispatch(selectSize(size));
     };
-    console.log(activeSize);
     return (
         <p>Размеры в наличии:
             {product && product.sizes.map(item=>

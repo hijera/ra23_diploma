@@ -17,7 +17,7 @@ function CartWidget(props) {
         evt.preventDefault();
         dispatch(removeFromCart(id,size))
     };
-    console.log(cart);
+
     return (
         <section className="cart">
             <h2 className="text-center">Корзина</h2>

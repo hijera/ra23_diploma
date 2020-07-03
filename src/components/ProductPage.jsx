@@ -17,7 +17,6 @@ function ProductPage(props) {
     const { history } = props;
     const { activeSize,loading,error, count, product} = useSelector(state=>state.product);
     const dispatch = useDispatch();
-    console.log(activeSize);
     const handleClick = evt => {
         evt.preventDefault();
         dispatch(addToCart(product,count,activeSize));
