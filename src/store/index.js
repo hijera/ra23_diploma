@@ -3,10 +3,18 @@ import { combineEpics, createEpicMiddleware } from 'redux-observable';
 import itemsReducer from '../reducers/items';
 import productReducer from "../reducers/product";
 import topsellsReducer from "../reducers/topsells";
-import {catalogRequestEpic, categoriesRequestEpic, productRequestEpic, topsellsRequestEpic} from "../epics";
+import {
+    catalogRequestEpic,
+    categoriesRequestEpic,
+    orderRequestEpic,
+    productRequestEpic,
+    topsellsRequestEpic
+} from "../epics";
 import cartReducer from "../reducers/cart";
 import {saveState} from "../localStorage";
 import categoryReducer from "../reducers/category";
+import searchReducer from "../reducers/search";
+import orderReducer from "../reducers/order";
 
 
 const reducer = combineReducers({
@@ -14,7 +22,9 @@ const reducer = combineReducers({
     product: productReducer,
     topsells: topsellsReducer,
     cart : cartReducer,
-    categories: categoryReducer
+    categories: categoryReducer,
+    search: searchReducer,
+    order: orderReducer
 });
 
 
@@ -25,7 +35,8 @@ const epic = combineEpics(
     catalogRequestEpic,
     productRequestEpic,
     topsellsRequestEpic,
-    categoriesRequestEpic
+    categoriesRequestEpic,
+    orderRequestEpic
 );
 
 const epicMiddleware = createEpicMiddleware();

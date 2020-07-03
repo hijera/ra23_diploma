@@ -1,4 +1,4 @@
-import {ADD_TO_CART, REMOVE_FROM_CART} from "../actions/actionTypes";
+import {ADD_TO_CART, REMOVE_FROM_CART, RESET_CART} from "../actions/actionTypes";
 import {loadState} from "../localStorage";
 
 const initialState = {
@@ -16,13 +16,17 @@ export default function cartReducer(state=initialState,action) {
         return {
             ...state,
             cart:(eObj) ? [...state.cart,{ ...eObj , count: eObj.count+count} ] :
-                [...state.cart,{title:product.title,count:count,size:action.payload.size,price_per_item:product.price,id:product.id}]
+                [...state.cart,{title:product.title,count:count,size:action.payload.size,price:product.price,id:product.id}]
         };
         case REMOVE_FROM_CART:
             const {id} = action.payload;
             return {
                 ...state,
                 cart:state.cart.filter(item=>!(item.id==id && item.size==action.payload.size))
+            };
+        case RESET_CART:
+            return {...state,
+            cart:[]
             };
         default:
             return state;

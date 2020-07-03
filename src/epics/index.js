@@ -5,14 +5,14 @@ import { map, tap, retry, filter,  switchMap, catchError } from 'rxjs/operators'
 import {
     ADD_TO_CART,
     CAT_REQUEST,
-    CATALOG_REQUEST,
+    CATALOG_REQUEST, ORDER_REQUEST,
     PRODUCT_REQUEST,
     REMOVE_FROM_CART,
     TOP_REQUEST
 } from "../actions/actionTypes";
 import {
     catalogRequestFailure,
-    catalogRequestSuccess, categoriesRequestFailure, categoriesRequestSuccess,
+    catalogRequestSuccess, categoriesRequestFailure, categoriesRequestSuccess, orderRequestFailure, orderRequestSuccess,
     productRequestFailure,
     productRequestSuccess, topRequestFailure, topRequestSuccess
 } from "../actions/actionCreators";
@@ -64,6 +64,35 @@ export const categoriesRequestEpic = action$ => action$.pipe(
     )),
 );
 
+export const orderRequestEpic = action$ => action$.pipe(
+  ofType(ORDER_REQUEST),
+    map(o=>o.payload),
+    switchMap(o => ajax.post(`${process.env.REACT_APP_ORDER_URL}`,
+        {owner:{
+        phone: o.phone,
+        address: o.address,
+        },
+    items:o.items
+    },{ 'Content-Type': 'application/json' }).pipe(
+        retry(process.env.REACT_APP_RETRY_COUNT),
+        map(o => orderRequestSuccess(o)),
+        catchError(e => of(orderRequestFailure(e))),
+    )),
+);
+/*
+{
+    "owner": {
+    "phone": "+7xxxxxxxxxxx",
+        "address": "Moscow City",
+},
+    "items": [
+    {
+        "id": 1,
+        "price": 34000,
+        "count": 1
+    }
+]
+}*/
 //    map(o => o.payload),
 //     map(o => new URLSearchParams({categoryId: o.categoryId ? o.categoryId : "",offset:o.offset? o.offset: ""})),
 /*export const addToCartEpic = action$ => action$.pipe(

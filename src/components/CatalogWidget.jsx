@@ -15,17 +15,19 @@ function CatalogWidget(props) {
     const params = new URLSearchParams(props.location.search);
     const q = params.get('q');
     const { list, loading, error, offset, maxlength} = useSelector(state=>state.list);
+    const { query } =useSelector(state=>state.search);
     const { selectedCategory } = useSelector(state=>state.categories);
-    const [query,setQuery] =useState((q && props.searchable) ? q : '');
+    const [qstr,setQuery] =useState((q && props.searchable) ? q : '');
     const dispatch = useDispatch();
     useEffect(()=>{
-        dispatch(catalogRequest((selectedCategory==0) ? '' : selectedCategory,query,false));
-    },[selectedCategory,query]);
-
+        dispatch(catalogRequest((selectedCategory==0) ? '' : selectedCategory,(props.searchable) ? qstr : '',false));
+    },[selectedCategory,(props.searchable) ? qstr : null]);
+    useEffect(()=>{
+        setQuery(query);
+    },[(props.searchable) ? query : null]);
     const handleClick = evt => {
-        console.log(offset);
       evt.preventDefault();
-      dispatch(catalogRequest((selectedCategory==0) ? '' : selectedCategory,query,true));
+      dispatch(catalogRequest((selectedCategory==0) ? '' : selectedCategory,(props.searchable) ? qstr : '',true));
     };
 
     const handleChange = evt => {
@@ -37,7 +39,7 @@ function CatalogWidget(props) {
             <h2 className="text-center">Каталог</h2>
 
             {list && props.searchable && <form className="catalog-search-form form-inline">
-                <input className="form-control" placeholder="Поиск" value={query} onChange={handleChange} />
+                <input className="form-control" placeholder="Поиск" value={qstr} onChange={handleChange} />
             </form>}
 
             {list &&

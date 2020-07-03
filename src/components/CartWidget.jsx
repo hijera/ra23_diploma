@@ -40,8 +40,8 @@ function CartWidget(props) {
                     <td><Link to={"/products/"+item.id+".html"}>{item.title}</Link></td>
                     <td>{item.size}</td>
                     <td>{item.count}</td>
-                    <td>{item.price_per_item.toString().replace(numRegex, '$1 ')} руб.</td>
-                    <td>{(item.price_per_item*item.count).toString().replace(numRegex, '$1 ')} руб.</td>
+                    <td>{item.price.toString().replace(numRegex, '$1 ')} руб.</td>
+                    <td>{(item.price*item.count).toString().replace(numRegex, '$1 ')} руб.</td>
                     <td>
                         <button className="btn btn-outline-danger btn-sm" onClick={(evt) => handleRemove(evt,item.id,item.size)}>Удалить</button>
                     </td>
@@ -49,7 +49,7 @@ function CartWidget(props) {
                 )}
                 <tr>
                     <td colSpan="5" className="text-right">Общая стоимость</td>
-                    <td>{cart.length>0 && cart.reduce((sum,item)=>(sum+item.count*item.price_per_item),0).toString().replace(numRegex,'$1 ')} руб.</td>
+                    <td>{cart.length>0 && cart.reduce((sum,item)=>(sum+item.count*item.price),0).toString().replace(numRegex,'$1 ')} руб.</td>
                 </tr>
 
                 </tbody>
