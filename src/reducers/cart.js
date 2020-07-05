@@ -12,11 +12,13 @@ export default function cartReducer(state=initialState,action) {
 
         case ADD_TO_CART:
             const {product,count} = action.payload;
-            const eObj=state.cart.find(item=>item.id==product.id && item.size==action.payload.size);
+
+            const eObj= (state.cart && state.cart.length>0) ? state.cart.find(item=>item.id==product.id && item.size==action.payload.size) : null;
+
         return {
             ...state,
-            cart:(eObj) ? [...state.cart,{ ...eObj , count: eObj.count+count} ] :
-                [...state.cart,{title:product.title,count:count,size:action.payload.size,price:product.price,id:product.id}]
+            cart:(eObj) ? [ ...((state.cart) ? state.cart.filter(obj=>!(obj.id==eObj.id && obj.size==eObj.size)) : [] ) ,{ ...eObj , count: eObj.count+count} ] :
+                [...((state.cart) ? state.cart : [] ),{title:product.title,count:count,size:action.payload.size,price:product.price,id:product.id}]
         };
         case REMOVE_FROM_CART:
             const {id} = action.payload;

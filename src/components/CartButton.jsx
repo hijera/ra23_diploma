@@ -15,7 +15,7 @@ function CartButton(props) {
     };
     return (
         <div className="header-controls-pic header-controls-cart" onClick={handleClick}>
-            {cart.length>0 && <div className="header-controls-cart-full">{cart.length}</div>}
+            {cart && cart.length>0 && <div className="header-controls-cart-full">{cart.length}</div>}
             <div className="header-controls-cart-menu"></div>
         </div>
 

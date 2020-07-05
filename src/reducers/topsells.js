@@ -14,7 +14,7 @@ export default function topsellsReducer(state=initialState,action)
                 ...state,
                 loading: true,
                 error: null,
-                details: null,
+                list: [],
             };
         case TOP_REQUEST_FAILURE:
             const {error} = action.payload;

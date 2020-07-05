@@ -5,9 +5,11 @@ import Banner from "./Banner";
 import {useDispatch, useSelector} from "react-redux";
 import SizesWidget from "./SizesWidget";
 import CountWidget from "./CountWidget";
-import {addToCart, catalogRequest, productRequest} from "../actions/actionCreators";
+import {addToCart, catalogRequest, productRequest, resetOrder} from "../actions/actionCreators";
 import ProductInfoWidget from "./ProductInfoWidget";
 import Preloader from "./Preloader";
+import Error from "./Error";
+import ItemImage from "./ItemImage";
 
 ProductPage.propTypes = {
 
@@ -16,15 +18,26 @@ ProductPage.propTypes = {
 function ProductPage(props) {
     const { history } = props;
     const { activeSize,loading,error, count, product} = useSelector(state=>state.product);
+    const { ordered } = useSelector(state=>state.order);
+    const { cart } = useSelector(state=>state.cart);
     const dispatch = useDispatch();
     const handleClick = evt => {
         evt.preventDefault();
         dispatch(addToCart(product,count,activeSize));
+        if (ordered && cart.length==0)
+        {
+            //reset order
+            dispatch(resetOrder());
+        }
         history.push("/cart.html");
     };
 
-    useEffect(()=>{
+    const requestData = evt => {
         dispatch(productRequest(props.match.params.id));
+    };
+
+    useEffect(()=>{
+        requestData();
     },[]);
 
     return (
@@ -32,12 +45,13 @@ function ProductPage(props) {
             <Banner />
 
             {loading && <Preloader/> }
+            {error && <Error {...error} actionHandle={requestData} />}
             {product && <section className="catalog-item">
                 <h2 className="text-center">{product.title}</h2>
                 <div className="row">
                     <div className="col-5">
-                        <img src={(product.images && product.images.length>0) ? product.images[0] : '' }
-                             className="img-fluid" alt="" />
+                        <ItemImage history={history} images={product.images}
+                             classes={"img-fluid"} alt="Main image" />
                     </div>
                     <div className="col-7">
                         <ProductInfoWidget/>

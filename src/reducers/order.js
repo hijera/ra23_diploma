@@ -1,4 +1,4 @@
-import {ORDER_REQUEST, ORDER_REQUEST_FAILURE, ORDER_REQUEST_SUCCESS} from "../actions/actionTypes";
+import {ORDER_REQUEST, ORDER_REQUEST_FAILURE, ORDER_REQUEST_SUCCESS, RESET_ORDER} from "../actions/actionTypes";
 
 const initialState = {
     loading: false,
@@ -30,6 +30,11 @@ export default function orderReducer(state=initialState,action) {
                 loading: false,
                 error: null,
             };
+        case RESET_ORDER:
+            return {
+                ...state,
+                ordered: false,
+            }
         default:
             return {...state};
     }

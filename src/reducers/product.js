@@ -25,7 +25,7 @@ export default function productReducer(state=initialState,action)
                 ...state,
                 loading: true,
                 error: null,
-                details: null,
+                product: null,
                 count: 1,
                 activeSize: null,
                 id
@@ -53,7 +53,7 @@ export default function productReducer(state=initialState,action)
         case REMOVE_COUNT:
             return {
                 ...state,
-                count: (state.count> 0 )? (state.count-1): state.count,
+                count: (state.count> 1 )? (state.count-1): state.count,
             };
         case SELECT_SIZE:
             const {size} = action.payload;

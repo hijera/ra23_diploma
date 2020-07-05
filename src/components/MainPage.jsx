@@ -16,7 +16,7 @@ function MainPage(props) {
     return (
             <BodyWrapper>
                 <Banner />
-                <TopSalesWidget/>
+                <TopSalesWidget {...props} />
                 <CatalogWidget {...props} />
             </BodyWrapper>
     );

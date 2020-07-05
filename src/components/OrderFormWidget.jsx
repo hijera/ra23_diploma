@@ -50,7 +50,7 @@ function OrderFormWidget(props) {
                             <label className="form-check-label" htmlFor="agreement">Согласен с правилами
                                 доставки</label>
                     </div>
-                    <button type="submit" className="btn btn-outline-secondary" disabled={((!form.agreement || form.phone.trim()=='' || form.address.trim()=='') ? 'disabled' : '')}>Оформить</button>
+                    <button type="submit" className="btn btn-outline-secondary" disabled={((!form.agreement || form.phone.trim()=='' || form.address.trim()=='' || (cart && cart.length==0)) ? 'disabled' : '')}>Оформить</button>
                 </form>}
                 {loading && !ordered && <Preloader/>}
                 {!loading && ordered && <OrderResult/>}

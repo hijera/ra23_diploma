@@ -34,7 +34,7 @@ function CartWidget(props) {
                 </tr>
                 </thead>
                 <tbody>
-                {cart.map((item,k)=>
+                {cart && cart.length>0 && cart.map((item,k)=>
                 <tr key={""+item.id+item.size+item.count}>
                     <th scope="row">{k+1}</th>
                     <td><Link to={"/products/"+item.id+".html"}>{item.title}</Link></td>
@@ -49,7 +49,7 @@ function CartWidget(props) {
                 )}
                 <tr>
                     <td colSpan="5" className="text-right">Общая стоимость</td>
-                    <td>{cart.length>0 && cart.reduce((sum,item)=>(sum+item.count*item.price),0).toString().replace(numRegex,'$1 ')} руб.</td>
+                    <td>{cart && cart.length>0 && cart.reduce((sum,item)=>(sum+item.count*item.price),0).toString().replace(numRegex,'$1 ')} руб.</td>
                 </tr>
 
                 </tbody>

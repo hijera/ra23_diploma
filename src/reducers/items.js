@@ -25,7 +25,7 @@ export default function itemsReducer(state=initialState,action)
             const {categoryId,add,q} = action.payload;
             return {
                 ...state,
-                loading: add ? state.loading : true,
+                loading: true,
                 error: null,
                 q,
                 categoryId,

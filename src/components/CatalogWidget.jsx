@@ -5,13 +5,14 @@ import Item from "./Item";
 import Preloader from "./Preloader";
 import {useDispatch, useSelector} from "react-redux";
 import {catalogRequest, topRequest} from "../actions/actionCreators";
+import Error from "./Error";
 
 CatalogWidget.propTypes = {
 
 };
 
 function CatalogWidget(props) {
-    const { match } = props;
+
     const params = new URLSearchParams(props.location.search);
     const q = params.get('q');
     const { list, loading, error, offset, maxlength} = useSelector(state=>state.list);
@@ -19,8 +20,11 @@ function CatalogWidget(props) {
     const { selectedCategory } = useSelector(state=>state.categories);
     const [qstr,setQuery] =useState((q && props.searchable) ? q : '');
     const dispatch = useDispatch();
-    useEffect(()=>{
+    const requestData = evt => {
         dispatch(catalogRequest((selectedCategory==0) ? '' : selectedCategory,(props.searchable) ? qstr : '',false));
+    };
+    useEffect(()=>{
+        requestData();
     },[selectedCategory,(props.searchable) ? qstr : null]);
     useEffect(()=>{
         setQuery(query);
@@ -50,10 +54,11 @@ function CatalogWidget(props) {
             </div>
             }
 
-            {list && props.more && !loading && !maxlength && <div className="text-center">
+            {list && props.more && !error && !loading && !maxlength && <div className="text-center">
                 <button className="btn btn-outline-primary" onClick={handleClick}>Загрузить ещё</button>
             </div>}
             {loading && <Preloader/>}
+            {error && <Error {...error} actionHandle={requestData} />}
         </section>
     );
 }
