@@ -42,7 +42,7 @@ function Header(props) {
                                      className="header-controls-pic header-controls-search" onClick={handleClick}></div>
                                 <CartButton history={history} />
                             </div>
-                            <SearchForm />
+                            <SearchForm history={history} />
                         </div>
 
                     </nav>
